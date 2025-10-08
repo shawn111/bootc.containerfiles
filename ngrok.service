@@ -1,0 +1,11 @@
+[Unit]
+Description=ngrok tunnel
+After=network.target
+
+[Service]
+ExecStart=ngrok start --all
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
