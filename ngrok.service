@@ -1,11 +1,15 @@
+
 [Unit]
-Description=ngrok tunnel
-After=network.target
+Description=ngrok secure tunnel client
+ConditionFileIsExecutable=/usr/bin/ngrok
 
 [Service]
-ExecStart=ngrok start --all
-Restart=always
-User=root
+StartLimitInterval=5
+StartLimitBurst=10
+ExecStart=/usr/bin/ngrok "service" "run" "--config" "/root/.config/ngrok/ngrok.yml"
 
+Restart=always
+RestartSec=15
+EnvironmentFile=-/etc/sysconfig/ngrok
 [Install]
 WantedBy=multi-user.target
