@@ -29,6 +29,13 @@ RUN tar xvzf ./ngrok-v3-stable-linux-amd64.tgz -C /usr/bin
 RUN rm ./ngrok-v3-stable-linux-amd64.tgz
 
 RUN dnf install -y --setopt=install_weak_deps=False \
-     git
+     git \
+     nodejs-npm
 
+ENV NPM_CONFIG_CACHE=/tmp/.npm_cache
+ENV NPM_CONFIG_LOGFILE=/tmp/.npm_logs/npm-debug.log
+RUN mkdir -p /tmp/.npm_cache /tmp/.npm_logs
+RUN npm cache clean --force
+RUN npm install --loglevel=verbose -y -g @google/gemini-cli
+RUN rm -rf /tmp/*
 RUN dnf clean all
