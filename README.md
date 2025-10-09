@@ -7,6 +7,14 @@
     - bootc switch quay.io/fedora/fedora-bootc:44
     - bootc switch --transport containers-storage quay.io/fedora/fedora-bootc:local
 
+## systemd related
+
+### systemd-mount
+
+systemctl list-units --type=mount --all
+
+### systemd-networkd
+
 ## Plan
 - bootc support for soft reboots
   - https://github.com/bootc-dev/bootc/issues/1350

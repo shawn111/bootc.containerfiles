@@ -24,6 +24,11 @@ RUN dnf install -y glibc-langpack-en
 # for laptop
 COPY logind.conf /usr/lib/systemd/logind.conf
 
+# local storage cache
+RUN sed -i 's#^additionalimagestores.*#additionalimagestores = ["/var/lib/containers/storage-base",#' /usr/share/containers/storage.conf
+COPY podman/var-lib-containers-storage.mount /usr/lib/systemd/system/var-lib-containers-storage.mount
+RUN systemctl enable var-lib-containers-storage.mount
+
 ### k8s kind
 RUN curl -Lo /usr/bin/kind https://kind.sigs.k8s.io/dl/v0.30.0/kind-linux-amd64 && chmod +x /usr/bin/kind
 RUN curl -Lo /usr/bin/kubectl "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && chmod +x /usr/bin/kubectl
@@ -63,6 +68,13 @@ ENV NPM_CONFIG_LOGFILE=/tmp/.npm_logs/npm-debug.log
 RUN mkdir -p /tmp/.npm_cache /tmp/.npm_logs
 RUN npm cache clean --force
 RUN npm install --loglevel=verbose -y -g @google/gemini-cli
+
+
+# bootc v1.9.0
+#  - https://github.com/bootc-dev/bootc/pull/1444 Add a composefs backend
+# https://github.com/bootc-dev/bootc/releases/tag/v1.9.0
+# but composefs not enable as default
+COPY images/bootc /usr/bin/bootc.new
 
 ########## clean env
 RUN rm -rf /tmp/*
