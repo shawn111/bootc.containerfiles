@@ -25,7 +25,36 @@ Oct 08 21:47:13 fedora systemd[1]: systemd-remount-fs.service: Failed with resul
 Oct 08 21:47:13 fedora systemd[1]: Failed to start systemd-remount-fs.service - Remount Root and Kernel File Systems.
 ```
 
-- systemd-sysusers.service
+## Fixed
+
+### locale issue
+locale -a
+locale: Cannot set LC_CTYPE to default locale: No such file or directory
+locale: Cannot set LC_MESSAGES to default locale: No such file or directory
+locale: Cannot set LC_COLLATE to default locale: No such file or directory
+C
+C.utf8
+POSIX
+
+/usr/share/i18n/locales/
+glibc-common
+
+add `dnf install -y glibc-langpack-en` to slove it
+
+
+## qemu / libvirt
+
+https://www.iduoad.com/til/qemusystem-vs-qemusession/
+https://blog.wikichoon.com/2016/01/qemusystem-vs-qemusession.html
+https://developers.redhat.com/articles/2024/12/18/rootless-virtual-machines-kvm-and-qemu
+- qemu:///system - root / polkit
+- qemu:///session - usermode networking (SLIRP)
+
+### systemd-sysusers.service
+
+for bootc user/group handle, https://bootc-dev.github.io/bootc/building/users-and-groups.html
+
+https://www.freedesktop.org/software/systemd/man/latest/systemd-sysusers.html
 
 ```
 Oct 08 21:47:13 fedora systemd-sysusers[940]: Creating group 'qat' with GID 974.
@@ -39,3 +68,8 @@ Oct 08 21:47:13 fedora systemd[1]: systemd-sysusers.service: Main process exited
 Oct 08 21:47:13 fedora systemd[1]: systemd-sysusers.service: Failed with result 'exit-code'.
 Oct 08 21:47:13 fedora systemd[1]: Failed to start systemd-sysusers.service - Create System Users.
 ```
+remove "brlapi" in /etc/gshadow to solve it
+
+## Need study
+- brltty - BRLTTY is a background process (daemon) providing access to the Linux/Unix console (when in text mode) for a blind person using a refreshable braille display.
+

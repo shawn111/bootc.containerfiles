@@ -37,5 +37,8 @@ ENV NPM_CONFIG_LOGFILE=/tmp/.npm_logs/npm-debug.log
 RUN mkdir -p /tmp/.npm_cache /tmp/.npm_logs
 RUN npm cache clean --force
 RUN npm install --loglevel=verbose -y -g @google/gemini-cli
+
+# glibc-langpack-en to fix "locale: Cannot set LC_CTYPE to default locale: No such file or directory"
+RUN dnf install -y glibc-langpack-en
 RUN rm -rf /tmp/*
 RUN dnf clean all
