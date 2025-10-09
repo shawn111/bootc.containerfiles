@@ -2,7 +2,6 @@ FROM quay.io/fedora/fedora-bootc:44
 
 RUN dnf install -y --setopt=install_weak_deps=False \
      pciutils \
-     NetworkManager-wifi \
      evtest \ 
      wget \ 
      curl \ 
