@@ -6,3 +6,5 @@ https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/virtual
 # https://os.gnome.org
 
 https://os.gnome.org/download/latest/gnome_os_nightly.iso
+
+# https://www.technicalsourcery.net/posts/nixos-in-libvirt/
